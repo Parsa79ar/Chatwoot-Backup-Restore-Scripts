@@ -28,6 +28,7 @@ fi
 # Optional: Check for pending migrations
 echo "Checking for pending migrations..."
 pending_migrations=$(docker exec chatwoot-rails-1 bundle exec rails db:migrate:status 2>/dev/null | grep -c "down" || echo "0")
+pending_migrations=$(echo "$pending_migrations" | head -n1)
 if [ "$pending_migrations" -gt 0 ]; then
     echo "WARNING: $pending_migrations pending migrations found. Consider running migrations before backup."
     echo "Continue anyway? (y/N)"
